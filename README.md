@@ -1,7 +1,5 @@
 # HEMINGWAYOVÁTORO-ROTÁTOR™
-#### Toto je výsledok môjho SVELTE video seriálu.
-
----
+###### Toto je výsledok môjho SVELTE video seriálu.
 
 **NAUČÍM ŤA SVELTE** (6 epizód video seriálu o SVELTE)  
 :: https://www.youtube.com/playlist?list=PLhB6F20C-jTOHu6zWKLzG4mCCN1vr_V0v
