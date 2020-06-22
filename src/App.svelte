@@ -1,9 +1,58 @@
 <script>
-// components
-import Wave from './components/Wave.svelte'
+	// imports
+	import { cubicOut, circOut } from 'svelte/easing'
+	import { shuffleArray } from './functions'
+	import { tweened } from 'svelte/motion'
 
-let bookTitle = "Itchy Scrotum"
-let waving = false
+	// components
+	import Wave from './components/Wave.svelte'
+	import TheBook from './components/TheBook.svelte'
+
+	// vars
+	let books = localStorage.getStuff('unreadBooks')
+	let audio = new Audio('./assets/dsshotgn.wav')
+
+	let bookHasBeenRead = false
+	let animationEnded = false
+	let waving = false
+
+	// countdown
+	const progress = tweened(0, {
+		duration: 2500,
+		easing: circOut
+	})
+
+	// randomize (choose random book)
+	const chooseBook = () => {
+		books = localStorage.getStuff('unreadBooks')
+		shuffleArray(books)
+
+		bookHasBeenRead = false
+		animationEnded = false
+
+		let index = $progress === 0 ? books.length - 1 : 0
+
+		progress.set(index).then(() => {
+			animationEnded = true
+			audio.play()
+		})
+	}
+
+	// move currentBook from unread to read books
+	const readBook = () => {
+		let readBooks = localStorage.getStuff('readBooks')
+		let unreadBooks = localStorage.getStuff('unreadBooks')
+
+		bookHasBeenRead = true
+
+		readBooks.push(chosenBook)
+		unreadBooks = unreadBooks.filter(item => item.id !== chosenBook.id)
+
+		localStorage.setStuff('readBooks', readBooks)
+		localStorage.setStuff('unreadBooks', unreadBooks)
+	}
+
+	$: chosenBook = books[Math.floor($progress)] || books[0]
 </script>
 
 <style>
@@ -19,16 +68,17 @@ let waving = false
 	<h1>HEMINGWAYOVÁTORO-ROTÁTOR™</h1>
 
 	<label for="waving">
-		<input type="checkbox" id="waving" bind:checked={waving}>
+		<input type="checkbox" id="waving" bind:checked={waving} />
 		waving
 	</label>
 </header>
 
 <main>
-	<h2>{bookTitle}</h2>
+	<TheBook {chosenBook} {animationEnded} {bookHasBeenRead} />
 
 	<section class="controls">
-		<!--  -->
+		<img on:click={chooseBook} src="./assets/gun.png" alt="cool ass gun" />
+		<img on:click={readBook} src="./assets/anchor.png" alt="sweet anchor" />
 	</section>
 </main>
 
