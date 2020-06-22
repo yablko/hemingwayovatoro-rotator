@@ -3,19 +3,11 @@
 Nainštaluj cez
 
 ```bash
-npm install
-
-  alebo
-  
-yarn install
+npm install / yarn
 ```
 
 Spusti server cez
 
 ```bash
-yarn dev
-
-  alebo
-  
-npm run dev
+npm run dev / yarn dev
 ```
